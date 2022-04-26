@@ -17,6 +17,7 @@ var answerKey = [2, 3, 3, 3];
 var roundWon = false;
 var points = 0;
 var finished = false;
+var highScores = [];
 
 setDefault();
 
@@ -40,7 +41,7 @@ function setDefault() {
     console.log('setting defaults');
     timeEl.textContent = "Time: 0"
     bigText.textContent = 'Coding Quiz';
-    startText.textContent = 'Try to answer the following code-related quesstions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!';
+    startText.textContent = 'Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!';
     finished = false;
 };
 
@@ -81,6 +82,7 @@ function finishedScreen() {
     startText.textContent = 'Your final score was ' + points + '.';
     startEl.textContent = "";
     finished = true;
+    setHighscoreButton();
 }
 
 function removeQuestions() {
@@ -89,6 +91,22 @@ function removeQuestions() {
         totalList.removeChild(totalList.children[0]);
     }
     currentIndex++;
+}
+
+function setHighscoreButton() {
+    var button = document.createElement("button");
+    button.textContent = "Submit";
+
+    var inputText = document.createElement("input");
+    inputText.setAttribute("type", "text");
+
+    var li = document.createElement("li");
+    li.textContent = "Enter initials: ";
+    li.appendChild(inputText);
+    li.setAttribute("data-type", "textInput");
+    li.appendChild(button);
+
+    totalList.appendChild(li);
 }
 
 startButton.addEventListener("click", function(event) {
@@ -101,7 +119,7 @@ startButton.addEventListener("click", function(event) {
 
 totalList.addEventListener("click", function(event) {
     var element = event.target;
-    if (element.matches('button')) {
+    if (element.matches('button') && element.textContent !== 'Submit') {
         var index = element.parentElement.getAttribute("data-index");
         console.log(index + ':' + answerKey[currentIndex]);
         if (index == answerKey[currentIndex]) {
@@ -116,6 +134,31 @@ totalList.addEventListener("click", function(event) {
             setQuestion(currentIndex);
         } else {
             finishedScreen();
+        }
+    }
+
+    if (element.textContent === "Submit") {
+        // save highscores
+        var initials = document.getElementsByTagName("input")[0].value;
+
+        // console.log('I can hear you!');
+        // console.log(document.getElementsByTagName("input")[0].value);
+
+        highScores.push({
+            initials: initials,
+            score: points
+        })
+
+        localStorage.setItem("highScores", JSON.stringify(highScores));
+        console.log(localStorage);
+
+        // check that theyre stored
+        var highScoreCheck = JSON.parse(localStorage.getItem("highScores"));
+        console.log('high score check: ' + highScoreCheck);
+        for (var score of highScoreCheck) {
+            for (key of Object.keys(score)) {
+                console.log(key + ': ' + score[key]);
+            }
         }
     }
 })
