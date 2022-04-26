@@ -16,17 +16,22 @@ var questionAnswers = {
 var answerKey = [2, 3, 3, 3];
 var roundWon = false;
 var points = 0;
+var finished = false;
 
 setDefault();
 
 function setTime() {
     // sets interval variable
     var timeInterval = setInterval(function() {
-        secondsLeft--;
+        if (secondsLeft > 0 && finished === false) {
+            secondsLeft--;
+        }
         timeEl.textContent = 'Time: ' + secondsLeft;
 
-        if (secondsLeft === 0) {
+        if (secondsLeft === 0 && finished === false) {
+            removeQuestions();
             finishedScreen();
+            timeInterval.clearInterval();
         }
     }, 1000);
 };
@@ -36,6 +41,7 @@ function setDefault() {
     timeEl.textContent = "Time: 0"
     bigText.textContent = 'Coding Quiz';
     startText.textContent = 'Try to answer the following code-related quesstions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!';
+    finished = false;
 };
 
 function revertDefault() {
@@ -71,15 +77,18 @@ function recordRound() {
 }
 
 function finishedScreen() {
-    bigText.content = "All Done!"
+    bigText.textContent = "All Done!"
     startText.textContent = 'Your final score was ' + points + '.';
+    startEl.textContent = "";
+    finished = true;
 }
 
 function removeQuestions() {
-    for (var i = 0; i < Object.values(questionAnswers).length; i++) {
-        console.log('removing element: ' + totalList.childNodes[0].textContent);
-        totalList.removeChild(totalList.childNodes[0]);
+    for (var i = 0; i < Object.values(questionAnswers)[currentIndex].length; i++) {
+        console.log('removing child: ' + totalList.children[0].textContent);
+        totalList.removeChild(totalList.children[0]);
     }
+    currentIndex++;
 }
 
 startButton.addEventListener("click", function(event) {
@@ -105,7 +114,6 @@ totalList.addEventListener("click", function(event) {
         removeQuestions();
         if (currentIndex < answerKey.length) {
             setQuestion(currentIndex);
-            currentIndex++;
         } else {
             finishedScreen();
         }
