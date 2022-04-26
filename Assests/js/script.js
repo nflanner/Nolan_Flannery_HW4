@@ -26,7 +26,7 @@ function setTime() {
         timeEl.textContent = 'Time: ' + secondsLeft;
 
         if (secondsLeft === 0) {
-            // you lose
+            finishedScreen();
         }
     }, 1000);
 };
@@ -67,6 +67,19 @@ function setQuestion(currentIndex) {
 function recordRound() {
     var outcome = roundWon ? 'Correct!' : 'Wrong!';
     startEl.textContent = outcome;
+    points += roundWon ? 10 : 0;
+}
+
+function finishedScreen() {
+    bigText.content = "All Done!"
+    startText.textContent = 'Your final score was ' + points + '.';
+}
+
+function removeQuestions() {
+    for (var i = 0; i < Object.values(questionAnswers).length; i++) {
+        console.log('removing element: ' + totalList.childNodes[0].textContent);
+        totalList.removeChild(totalList.childNodes[0]);
+    }
 }
 
 startButton.addEventListener("click", function(event) {
@@ -89,6 +102,12 @@ totalList.addEventListener("click", function(event) {
             secondsLeft -= 10;
         }
         recordRound();
-        currentIndex++;
+        removeQuestions();
+        if (currentIndex < answerKey.length) {
+            setQuestion(currentIndex);
+            currentIndex++;
+        } else {
+            finishedScreen();
+        }
     }
 })
