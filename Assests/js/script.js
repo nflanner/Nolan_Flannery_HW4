@@ -34,7 +34,7 @@ function setTime() {
         }
 
         if (secondsLeft === 0 && finished === false) {
-            removeQuestions();
+            clearUL();
             finishedScreen();
         }
     }, 1000);
@@ -47,26 +47,20 @@ function setDefault() {
     startText.textContent = 'Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!';
     clearUL();
     clearStartEl();
-    var button = document.createElement("button");
-    button.textContent = "Start Quiz";
-    startEl.append(button);
+    startEl.append(createElement("button", "Start Quiz"));
     currentIndex = 0;
     points = 0;
 };
 
 function revertDefault() {
     startText.textContent = "";
-    startEl.children[0].remove();
+    clearStartEl();
 };
 
 function newButtonList(buttonContent, currentIndex) {
-    var button = document.createElement("button");
-    button.textContent = buttonContent;
-
     var li = document.createElement("li");
     li.setAttribute("data-index", currentIndex);
-    li.appendChild(button);
-
+    li.appendChild(createElement("button", buttonContent));
     totalList.appendChild(li);
 }
 
@@ -93,37 +87,23 @@ function finishedScreen() {
     setSubmitButton();
 }
 
-function removeQuestions() {
-    for (var i = 0; i < Object.values(questionAnswers)[currentIndex].length; i++) {
-        totalList.removeChild(totalList.children[0]);
-    }
-    currentIndex++;
-}
-
 function setSubmitButton() {
-    var button = document.createElement("button");
-    button.textContent = "Submit";
+    // var button = document.createElement("button");
+    // button.textContent = "Submit";
 
-    var inputText = document.createElement("input");
-    inputText.setAttribute("type", "text");
+    // var inputText = document.createElement("input");
+    // inputText.setAttribute("type", "text");
 
-    var li = document.createElement("li");
-    li.textContent = "Enter initials: ";
-    li.appendChild(inputText);
-    li.setAttribute("data-type", "textInput");
-    li.appendChild(button);
+    // var li = document.createElement("li");
+    // li.textContent = "Enter initials: ";
+
+    var li = createElement("li", "Enter initials: ", "data-type", "textInput");
+    // li.appendChild(inputText);
+    li.appendChild(createElement("input", "", "type", "text"));
+    // li.setAttribute("data-type", "textInput");
+    li.appendChild(createElement("button", "Submit"));
 
     totalList.appendChild(li);
-}
-
-function setBackClearButtons() {
-    var backButton = document.createElement("button");
-    backButton.textContent = "Back";
-    var clearButton = document.createElement("button");
-    clearButton.textContent = "Clear";
-
-    startEl.appendChild(backButton);
-    startEl.appendChild(clearButton);
 }
 
 function saveScore() {
@@ -138,15 +118,15 @@ function saveScore() {
 function highScorePage() {
     bigText.textContent = 'High Scores';
     startText.textContent = "";
-    totalList.children[0].remove();
-
+    clearUL();
     for (var scoreObject of highScores) {
         var scoreString = scoreObject["initials"] + ' - ' + scoreObject["score"];
         var li = document.createElement("li");
         li.textContent = scoreString;
         totalList.appendChild(li);
     }
-    setBackClearButtons();
+    startEl.appendChild(createElement("button", "Back"));
+    startEl.appendChild(createElement("button", "Clear"));
 }
 
 function clearUL() {
@@ -163,6 +143,12 @@ function clearStartEl () {
     }
 }
 
+function createElement(type, content) {
+    var element = document.createElement(type);
+    element.textContent = content;
+    return element;
+}
+
 totalList.addEventListener("click", function(event) {
     event.preventDefault();
     var element = event.target;
@@ -176,7 +162,8 @@ totalList.addEventListener("click", function(event) {
             secondsLeft -= 10;
         }
         recordRound();
-        removeQuestions();
+        clearUL();
+        currentIndex++;
         if (currentIndex < answerKey.length) {
             setQuestion(currentIndex);
         } else {
