@@ -2,13 +2,37 @@
     box-sizing: border-box;
 }
 
+body {
+
+}
+
 header {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
+content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    width: 100%;
+    padding: 0 25% 0 25%;
+}
+
 ul {
     padding: 0;
     list-style-type: none;
+}
+
+button {
+    color: white;
+    background-color: rgba(99, 12, 131, 0.76);
+    border-radius: 5px;
+}
+
+#start {
+    padding: 0 25% 0 25%;
 }
