@@ -28,11 +28,9 @@ function setTime() {
             secondsLeft--;
             timeEl.textContent = 'Time: ' + secondsLeft;
         }
-
         if (finished === true) {
             clearInterval(timeInterval);
         }
-
         if (secondsLeft === 0 && finished === false) {
             clearUL();
             finishedScreen();
@@ -84,25 +82,9 @@ function finishedScreen() {
     startText.textContent = 'Your final score was ' + points + '.';
     startEl.textContent = "";
     finished = true;
-    setSubmitButton();
-}
-
-function setSubmitButton() {
-    // var button = document.createElement("button");
-    // button.textContent = "Submit";
-
-    // var inputText = document.createElement("input");
-    // inputText.setAttribute("type", "text");
-
-    // var li = document.createElement("li");
-    // li.textContent = "Enter initials: ";
-
     var li = createElement("li", "Enter initials: ", "data-type", "textInput");
-    // li.appendChild(inputText);
     li.appendChild(createElement("input", "", "type", "text"));
-    // li.setAttribute("data-type", "textInput");
     li.appendChild(createElement("button", "Submit"));
-
     totalList.appendChild(li);
 }
 
@@ -121,9 +103,7 @@ function highScorePage() {
     clearUL();
     for (var scoreObject of highScores) {
         var scoreString = scoreObject["initials"] + ' - ' + scoreObject["score"];
-        var li = document.createElement("li");
-        li.textContent = scoreString;
-        totalList.appendChild(li);
+        totalList.appendChild(createElement("li", scoreString));
     }
     startEl.appendChild(createElement("button", "Back"));
     startEl.appendChild(createElement("button", "Clear"));
@@ -143,9 +123,10 @@ function clearStartEl () {
     }
 }
 
-function createElement(type, content) {
+function createElement(type, content, attr, attrContent) {
     var element = document.createElement(type);
     element.textContent = content;
+    element.setAttribute(attr, attrContent);
     return element;
 }
 
