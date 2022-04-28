@@ -19,6 +19,7 @@ var points = 0;
 var finished = false;
 var highScores = [];
 
+loadScores();
 setDefault();
 
 function setTime() {
@@ -97,6 +98,15 @@ function saveScore() {
     localStorage.setItem("highScores", JSON.stringify(highScores));
 }
 
+function loadScores() {
+    var localScoreList = JSON.parse(localStorage.getItem("highScores"));
+    if (localScoreList.length > 0) {
+        for (var obj of localScoreList) {
+            highScores.push(obj);
+        }
+    }
+}
+
 function highScorePage() {
     bigText.textContent = 'High Scores';
     startText.textContent = "";
@@ -167,6 +177,8 @@ startEl.addEventListener("click", function(event){
     }
 
     if (element.textContent === 'Clear') {
+        highScores = [];
+        localStorage.setItem("highScores", JSON.stringify(highScores));
         clearUL();
     }
 
