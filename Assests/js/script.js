@@ -100,7 +100,7 @@ function saveScore() {
 
 function loadScores() {
     var localScoreList = JSON.parse(localStorage.getItem("highScores"));
-    if (localScoreList.length > 0) {
+    if (localScoreList != null) {
         for (var obj of localScoreList) {
             highScores.push(obj);
         }
