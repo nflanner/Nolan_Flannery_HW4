@@ -1,12 +1,13 @@
 # 04 Web APIs: Code Quiz
 
-## Your Task
+## Deployed application link
 
-At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment&mdash;perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges. 
+[Take the quiz](https://nflanner.github.io/Nolan_Flannery_HW4/)
 
-To help familiarize you with these tests and allow you to use the skills covered in this module, this Challenge invites you to build a timed coding quiz with multiple-choice questions. This app will run in the browser and will feature dynamically updated HTML and CSS powered by JavaScript code that you write. It will have a clean, polished, and responsive user interface. 
+## This Assignment
 
-This week’s coursework will equip you with all the skills you need to succeed in this assignment.
+This week's assignment is a coding quiz that contains 4 multiple-choice questions. Each question is worth 10 points, there is a 75 second timer the deducts 10 seconds for every missed question, and all scores are submitted and saved to the individual local machine. Scores 
+may also be cleared using the 'Clear' button at the end of the quiz. 
 
 ## User Story
 
